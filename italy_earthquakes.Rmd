@@ -1,0 +1,53 @@
+---
+title: "Map of Recent Earthquakes Around Italy"
+author: "Alessandro Vullo"
+date: "16 October 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Overview 
+
+
+## Data Processing
+
+### Getting the Raw Data
+
+Data is taken from [INGV](http://info.terremoti.ingv.it/) and downloaded to a file names _data.txt_.
+
+### Reading the Data
+
+
+```{r, message=FALSE, warning=FALSE}
+library(dplyr)
+library(lubridate)
+library(leaflet)
+```
+
+```{r loaddata}
+df <- read.csv('data.txt', header=TRUE, sep="|")
+```
+### Filtering Data
+
+```{r}
+df <- df %>%
+      mutate(popup = paste(sep = "<br>", 
+                           EventLocationName, 
+                           Time, 
+                           paste(sep = " ", MagType, Magnitude)))
+```
+
+## Interactive Earthquakes Map
+
+```{r map}
+leaflet(df) %>% 
+  addTiles() %>%
+  setView(13,41.5,zoom=6) %>%
+  addCircleMarkers(lat = ~Latitude, lng = ~Longitude, 
+                   radius = ~Magnitude^2, 
+                   clusterOptions = markerClusterOptions(), 
+                   popup = ~as.character(popup))
+```
