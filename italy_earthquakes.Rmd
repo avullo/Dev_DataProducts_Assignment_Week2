@@ -17,7 +17,7 @@ The aim in this report is to create and display an interactive map of recent ear
 
 ### Getting the Raw Data
 
-Data available at the [INGV page](http://info.terremoti.ingv.it/) is taken using the [INGV webservices](http://webservices.ingv.it) and downloaded as a text file a local file names.
+Data available at the [INGV page](http://info.terremoti.ingv.it/) is taken using the [INGV webservices](http://webservices.ingv.it) and downloaded as a text file to a local file.
 
 ```{r}
 if(!file.exists('earthquakes.txt')) {
@@ -33,7 +33,7 @@ library(lubridate)
 library(leaflet)
 ```
 
-File is a simple text with header and columns delimited by '|'.
+The downloaded file is a simple text with header and columns delimited by '|'.
 
 ```{r loaddata}
 df <- read.csv('earthquakes.txt', header=TRUE, sep="|")
